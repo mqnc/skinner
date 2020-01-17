@@ -1,5 +1,5 @@
 
-void main() {
+TVALUE value(vec3 vPosition, vec3 vNormal, vec2 vUv) {
 
 	float grassNoise = fractalNoise(48.0*vPosition*vec3(1.0, 1.0, 2.0));
 	float rockNoise = fractalNoise(4.0*vPosition);
@@ -13,24 +13,23 @@ void main() {
 
 	float rockmask = (1.0-snowmask-grassmask);
 
-	#ifdef DIFF
+	#ifdef DIFFUSE // return a color as vec3
 		vec3 grasscol = 0.5*green*(1.0-grassNoise) + vec3(0.3, 0.8, 0.0)*grassNoise;
 		vec3 rockcol = 0.5*white;
 		vec3 snowcol = white;
-		vec3 rgb = grassmask*grasscol + rockmask*rockcol + snowmask*snowcol;
+		return grassmask*grasscol + rockmask*rockcol + snowmask*snowcol;
 	#endif
-	#ifdef BUMP
+	#ifdef NORMAL_BUMP // return a vec4 with xyz being the surface normal and w being additional bump displacement
 		float grassbump = 0.3 + 0.5*grassNoise;
 		float rockbump = rockNoise;
 		float snowbump = 0.7 + 0.3*snowNoise;
-		vec3 rgb = white*(grassmask*grassbump + rockmask*rockbump + snowmask*snowbump);
+		return vec4(vNormal, (grassmask*grassbump + rockmask*rockbump + snowmask*snowbump)/16.0);
+		//return vec4(vNormal, 0.0);
 	#endif
-	#ifdef SPEC
-		vec3 rgb = white*snowmask + grassNoise*grassmask;
+	#ifdef SPECULAR // return a specular value as float
+		return snowmask + grassNoise*grassmask;
 	#endif
-	#ifdef EMIT
-		vec3 rgb = vec3(0.2, 0.3, 0.9)*snowmask + grassNoise*grassmask*green*0.1;
+	#ifdef EMISSIVE // return a color as vec3
+		return vec3(0.2, 0.3, 0.9)*snowmask + grassNoise*grassmask*green*0.1;
 	#endif
-
-	gl_FragColor = vec4(rgb, 1.0);
 }
