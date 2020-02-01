@@ -75,6 +75,7 @@ function init(config){
 	var emitRenderer = new THREE.WebGLRenderer({canvas:document.getElementById("emit")})
 	emitRenderer.setSize(resolution, resolution)
 	var worldRenderer = new THREE.WebGLRenderer({canvas:document.getElementById("world")})
+	window["ren"] = worldRenderer
 
 	var onResize = function(){
 		var w = window.innerWidth
@@ -161,6 +162,8 @@ function init(config){
 			emissiveMap:new THREE.CanvasTexture(emitRenderer.domElement),
 			emissive:new THREE.Color("white")
 		})
+
+		composed.normalMap.anisotropy = 4
 
 		skinRec(colladaSceneModel, composed)
 

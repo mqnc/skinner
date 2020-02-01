@@ -23,8 +23,10 @@ TVALUE value(vec3 vPosition, vec3 vNormal, vec2 vUv) {
 		float grassbump = 0.3 + 0.5*grassNoise;
 		float rockbump = rockNoise;
 		float snowbump = 0.7 + 0.3*snowNoise;
+		//float bump = 0.05*(sin(30.0*vPosition.x)*sin(30.0*vPosition.y));
 		return vec4(vNormal, (grassmask*grassbump + rockmask*rockbump + snowmask*snowbump)/16.0);
 		//return vec4(vNormal, 0.0);
+		//return vec4(vNormal, bump);
 	#endif
 	#ifdef SPECULAR // return a specular value as float
 		return snowmask + grassNoise*grassmask;
