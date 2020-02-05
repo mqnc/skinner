@@ -10,6 +10,12 @@ const vec3 green = vec3(0.0, 1.0, 0.0);
 const vec3 blue  = vec3(0.0, 0.0, 1.0);
 const vec3 white = vec3(1.0, 1.0, 1.0);
 
+// random rotation matrix to avoid axis aligned patterns with perlin noise
+const mat3 twist = mat3(
+		0.5743365, -0.5997332,  0.5571874,
+		0.7358698,  0.6764390, -0.0304278,
+		-0.3586547,  0.4274932,  0.8298292);
+
 float fractalNoise(vec3 xyz){
 	float f = 1.0;
 	const int n = 12;

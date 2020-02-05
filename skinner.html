@@ -68,14 +68,19 @@ function init(config){
 
 	var diffuseRenderer = new THREE.WebGLRenderer({canvas:document.getElementById("diff")})
 	diffuseRenderer.setSize(resolution, resolution)
+	diffuseRenderer.setClearColor(0x808080, 1.0)
 	var normalRenderer = new THREE.WebGLRenderer({canvas:document.getElementById("nrml")})
 	normalRenderer.setSize(resolution, resolution)
+	normalRenderer.setClearColor(0x808080, 1.0)
 	var specularRenderer = new THREE.WebGLRenderer({canvas:document.getElementById("spec")})
 	specularRenderer.setSize(resolution, resolution)
+	specularRenderer.setClearColor(0x808080, 1.0)
 	var emitRenderer = new THREE.WebGLRenderer({canvas:document.getElementById("emit")})
 	emitRenderer.setSize(resolution, resolution)
+	emitRenderer.setClearColor(0x000000, 1.0)
 	var worldRenderer = new THREE.WebGLRenderer({canvas:document.getElementById("world")})
 	window["ren"] = worldRenderer
+	worldRenderer.setClearColor(0x808080, 1.0)
 
 	var onResize = function(){
 		var w = window.innerWidth
@@ -139,6 +144,7 @@ function init(config){
 		})
 		colladaSceneFlat = mesh.data.scene
 		colladaSceneModel = colladaSceneFlat.clone()
+		//console.log(colladaSceneFlat)
 
 		texScene.add(colladaSceneFlat)
 
@@ -146,6 +152,7 @@ function init(config){
 		skinRec = function(group, material){
 			if(group.type == "Mesh"){
 				group.material = material
+				//console.log(group)
 			}
 			for(var i=0; i<group.children.length; i++){
 				skinRec(group.children[i], material)
@@ -159,6 +166,7 @@ function init(config){
 			normalMap:new THREE.CanvasTexture(normalRenderer.domElement),
 			normalMapType:THREE.ObjectSpaceNormalMap,
 			specularMap:new THREE.CanvasTexture(specularRenderer.domElement),
+			specular:0xffffff,
 			emissiveMap:new THREE.CanvasTexture(emitRenderer.domElement),
 			emissive:new THREE.Color("white")
 		})

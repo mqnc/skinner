@@ -29,7 +29,7 @@ TVALUE value(vec3 vPosition, vec3 vNormal, vec2 vUv) {
 		//return vec4(vNormal, bump);
 	#endif
 	#ifdef SPECULAR // return a specular value as float
-		return snowmask + grassNoise*grassmask;
+		return snowmask + 0.2*grassNoise*grassmask;
 	#endif
 	#ifdef EMISSIVE // return a color as vec3
 		return vec3(0.2, 0.3, 0.9)*snowmask + grassNoise*grassmask*green*0.1;
